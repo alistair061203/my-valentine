@@ -1,124 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Be My Valentine? ❤️</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        .floating {
-            animation: float 3s ease-in-out infinite;
-        }
-
+        .floating { animation: float 3s ease-in-out infinite; }
         @keyframes float {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-10px); }
         }
-
-        /* --- New Sliding Gallery Styles --- */
-        .gallery {
-            --d: 10s; /* total duration */
-            --n: 6;    /* number of images */
-            display: grid;
-            width: 250px;
-            margin: 0 auto;
-            position: relative;
-        }
-
-        .gallery > img {
-            grid-area: 1/1;
-            width: 100%;
-            aspect-ratio: 1;
-            object-fit: cover;
-            border: 10px solid #f2f2f2;
-            box-shadow: 0 0 10px rgba(0,0,0,0.2);
-            border-radius: 15px;
-            animation: slide var(--d) infinite;
-        }
-
-        /* Adjust the specific slide direction for the last card */
-        .gallery img:last-child {
-            animation-name: slide-last;
-        }
-
-        /* Unique delays and random-looking rotations for 6 images */
-        .gallery > img:nth-child(1) { animation-delay: calc(0/var(--n) * var(--d)); --r: -12deg; }
-        .gallery > img:nth-child(2) { animation-delay: calc(-1/var(--n) * var(--d)); --r: 8deg; }
-        .gallery > img:nth-child(3) { animation-delay: calc(-2/var(--n) * var(--d)); --r: -15deg; }
-        .gallery > img:nth-child(4) { animation-delay: calc(-3/var(--n) * var(--d)); --r: 12deg; }
-        .gallery > img:nth-child(5) { animation-delay: calc(-4/var(--n) * var(--d)); --r: -5deg; }
-        .gallery > img:nth-child(6) { animation-delay: calc(-5/var(--n) * var(--d)); --r: 10deg; }
-
-        @keyframes slide {
-            0%, 100%, 83.33% { transform: translateX(0%) rotate(var(--r)); z-index: 3; }
-            8.33% { transform: translateX(-120%) rotate(var(--r)); z-index: 3; }
-            8.34% { transform: translateX(-120%) rotate(var(--r)); z-index: -3; }
-            16.66%, 83.33% { transform: translateX(0%) rotate(var(--r)); z-index: -3; }
-        }
-
-        @keyframes slide-last {
-            0%, 100%, 91.66% { transform: translateX(0%) rotate(var(--r)); z-index: 3; }
-            8.33% { transform: translateX(120%) rotate(var(--r)); z-index: 3; }
-            8.34% { transform: translateX(120%) rotate(var(--r)); z-index: -3; }
-            16.66%, 91.66% { transform: translateX(0%) rotate(var(--r)); z-index: -3; }
-        }
     </style>
 </head>
-
 <body class="bg-pink-100 h-screen flex flex-col items-center justify-center overflow-hidden font-sans">
 
     <div id="question-section" class="text-center p-6">
         <h1 class="text-4xl md:text-6xl font-bold text-red-600 mb-8 floating">Will you be my Valentine? ❤️</h1>
-
         <div class="flex gap-4 justify-center">
-            <button id="yesBtn"
-                class="bg-red-500 hover:bg-red-600 text-white px-8 py-3 rounded-full text-xl font-semibold transition-all transform hover:scale-110 shadow-lg">
+            <a href="success.html" class="bg-red-500 hover:bg-red-600 text-white px-8 py-3 rounded-full text-xl font-semibold transition-all transform hover:scale-110 shadow-lg flex items-center justify-center no-underline">
                 Yes!
-            </button>
+            </a>
             <button id="noBtn" class="bg-gray-400 text-white px-8 py-3 rounded-full text-xl font-semibold shadow-md">
                 No
             </button>
         </div>
     </div>
 
-    <div id="success-section" class="hidden text-center p-6 flex-col items-center">
-        <h1 class="text-4xl font-bold text-red-600 mb-10">Yay! See you on the 14th! 🥰</h1>
-
-        <div class="gallery">
-            <img src="your-photo-1.jpg" alt="Us 1">
-            <img src="your-photo-2 copy 2.jpg" alt="Us 2">
-            <img src="your-photo-2 copy 3.jpg" alt="Us 3">
-            <img src="your-photo-2 copy 4.jpg" alt="Us 4">
-            <img src="your-photo-2 copy 5.jpg" alt="Us 5">
-            <img src="your-photo-2.jpg" alt="Us 6">
-        </div>
-
-        <div class="mt-12 text-red-400 animate-bounce text-2xl">❤️❤️❤️</div>
-    </div>
-
     <script>
-        const yesBtn = document.getElementById('yesBtn');
         const noBtn = document.getElementById('noBtn');
-        const questionSection = document.getElementById('question-section');
-        const successSection = document.getElementById('success-section');
 
         // Logic for the "No" button to run away
         noBtn.addEventListener('mouseover', () => {
             const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
             const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
-            noBtn.style.position = 'fixed'; // Changed to fixed for better jumping logic
+            noBtn.style.position = 'fixed';
             noBtn.style.left = `${x}px`;
             noBtn.style.top = `${y}px`;
         });
-
-        // Show photos on Yes
-        yesBtn.addEventListener('click', () => {
-            questionSection.classList.add('hidden');
-            successSection.classList.remove('hidden');
-            successSection.classList.add('flex'); // Ensure centering works
-        });
     </script>
 </body>
-
 </html>
