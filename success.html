@@ -6,42 +6,26 @@
     <title>Yay! 🥰</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body { background: #fff3ed; height: 100vh; display: grid; place-items: center; overflow: hidden; }
-
-        .scene {
-            display: grid;
-            overflow: hidden;
-            perspective: 35em;
-            mask: linear-gradient(90deg, #0000, red 20% 80%, #0000);
-            width: 100vw;
-            height: 600px;
+        /* Floating animation for the title */
+        .floating { animation: float 3s ease-in-out infinite; }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
         }
 
-        .a3d {
-            place-self: center;
-            transform-style: preserve-3d;
-            /* Entry from Right to Exit on Left */
-            animation: move-and-rotate 15s linear infinite;
+        /* 3D Carousel Animation */
+        @keyframes spin-y {
+            from { transform: rotateY(0deg); }
+            to { transform: rotateY(360deg); }
         }
 
-        @keyframes move-and-rotate {
-            0% { transform: translateX(100vw) rotateY(0turn); }
-            100% { transform: translateX(-100vw) rotateY(1turn); }
+        .animate-spin-3d {
+            animation: spin-y 20s linear infinite;
         }
 
-        .card {
-            --w: 15em; 
-            --ba: 1turn / var(--n);
-            grid-area: 1 / 1;
-            width: var(--w);
-            aspect-ratio: 7 / 10;
-            object-fit: cover;
-            border-radius: 1.5em;
-            backface-visibility: hidden;
-            /* Math from your snippet */
-            transform: 
-                rotateY(calc(var(--i) * var(--ba))) 
-                translateZ(calc(-1 * (.5 * var(--w) + 2em) / tan(.5 * var(--ba))));
+        /* Responsive 3D depth */
+        .perspective-container {
+            perspective: 1000px;
         }
     </style>
 </head>
