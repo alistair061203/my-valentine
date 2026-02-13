@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yay! 🥰</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background: #fff3ed; height: 100vh; display: grid; place-items: center; overflow: hidden; }
+
+        .scene {
+            display: grid;
+            overflow: hidden;
+            perspective: 35em;
+            mask: linear-gradient(90deg, #0000, red 20% 80%, #0000);
+            width: 100vw;
+            height: 600px;
+        }
+
+        .a3d {
+            place-self: center;
+            transform-style: preserve-3d;
+            /* Entry from Right to Exit on Left */
+            animation: move-and-rotate 15s linear infinite;
+        }
+
+        @keyframes move-and-rotate {
+            0% { transform: translateX(100vw) rotateY(0turn); }
+            100% { transform: translateX(-100vw) rotateY(1turn); }
+        }
+
+        .card {
+            --w: 15em; 
+            --ba: 1turn / var(--n);
+            grid-area: 1 / 1;
+            width: var(--w);
+            aspect-ratio: 7 / 10;
+            object-fit: cover;
+            border-radius: 1.5em;
+            backface-visibility: hidden;
+            /* Math from your snippet */
+            transform: 
+                rotateY(calc(var(--i) * var(--ba))) 
+                translateZ(calc(-1 * (.5 * var(--w) + 2em) / tan(.5 * var(--ba))));
+        }
+    </style>
+</head>
+<body>
+
+    <div class="text-center">
+        <h1 class="text-4xl font-bold text-red-600 mb-4">Yay! See you on the 14th! 🥰</h1>
+        
+        <div class="scene">
+            <div class="a3d" style="--n: 6">
+                <img class="card" style="--i: 0" src="your-photo-1.jpg">
+                <img class="card" style="--i: 1" src="your-photo-2 copy 2.jpg">
+                <img class="card" style="--i: 2" src="your-photo-2 copy 3.jpg">
+                <img class="card" style="--i: 3" src="your-photo-2 copy 4.jpg">
+                <img class="card" style="--i: 4" src="your-photo-2 copy 5.jpg">
+                <img class="card" style="--i: 5" src="your-photo-2.jpg">
+            </div>
+        </div>
+        
+        <a href="index.html" class="mt-8 inline-block text-red-400 hover:text-red-600 underline">Back to start</a>
+    </div>
+
+</body>
+</html>
