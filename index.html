@@ -6,10 +6,26 @@
     <title>Be My Valentine? ❤️</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
+        /* Floating animation for the title */
         .floating { animation: float 3s ease-in-out infinite; }
         @keyframes float {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-10px); }
+        }
+
+        /* 3D Carousel Animation */
+        @keyframes spin-y {
+            from { transform: rotateY(0deg); }
+            to { transform: rotateY(360deg); }
+        }
+
+        .animate-spin-3d {
+            animation: spin-y 20s linear infinite;
+        }
+
+        /* Responsive 3D depth */
+        .perspective-container {
+            perspective: 1000px;
         }
     </style>
 </head>
@@ -17,24 +33,55 @@
 
     <div id="question-section" class="text-center p-6">
         <h1 class="text-4xl md:text-6xl font-bold text-red-600 mb-8 floating">Will you be my Valentine? ❤️</h1>
+        
         <div class="flex gap-4 justify-center">
-            <a href="success.html" class="bg-red-500 hover:bg-red-600 text-white px-8 py-3 rounded-full text-xl font-semibold transition-all transform hover:scale-110 shadow-lg flex items-center justify-center">
+            <button id="yesBtn" class="bg-red-500 hover:bg-red-600 text-white px-8 py-3 rounded-full text-xl font-semibold transition-all transform hover:scale-110 shadow-lg">
                 Yes!
-            </a>
+            </button>
             <button id="noBtn" class="bg-gray-400 text-white px-8 py-3 rounded-full text-xl font-semibold shadow-md">
                 No
             </button>
         </div>
     </div>
 
+    <div id="success-section" class="hidden text-center p-6 w-full flex flex-col items-center">
+        <h1 class="text-4xl font-bold text-red-600 mb-12">Yay! See you on the 14th! 🥰</h1>
+        
+        <div class="perspective-container relative flex items-center justify-center h-64 md:h-96 w-full">
+            <div class="relative w-40 h-56 md:w-48 md:h-64 [transform-style:preserve-3d] animate-spin-3d" style="--n: 6;">
+                
+                <img src="your-photo-1.jpg" style="--i:0" class="absolute inset-0 w-full h-full object-cover rounded-xl border-4 border-white shadow-2xl [backface-visibility:hidden] [transform:rotateY(calc(var(--i)*360deg/var(--n)))_translateZ(250px)]">
+                <img src="your-photo-2.jpg" style="--i:1" class="absolute inset-0 w-full h-full object-cover rounded-xl border-4 border-white shadow-2xl [backface-visibility:hidden] [transform:rotateY(calc(var(--i)*360deg/var(--n)))_translateZ(250px)]">
+                <img src="your-photo-3.jpg" style="--i:2" class="absolute inset-0 w-full h-full object-cover rounded-xl border-4 border-white shadow-2xl [backface-visibility:hidden] [transform:rotateY(calc(var(--i)*360deg/var(--n)))_translateZ(250px)]">
+                <img src="your-photo-4.jpg" style="--i:3" class="absolute inset-0 w-full h-full object-cover rounded-xl border-4 border-white shadow-2xl [backface-visibility:hidden] [transform:rotateY(calc(var(--i)*360deg/var(--n)))_translateZ(250px)]">
+                <img src="your-photo-5.jpg" style="--i:4" class="absolute inset-0 w-full h-full object-cover rounded-xl border-4 border-white shadow-2xl [backface-visibility:hidden] [transform:rotateY(calc(var(--i)*360deg/var(--n)))_translateZ(250px)]">
+                <img src="your-photo-6.jpg" style="--i:5" class="absolute inset-0 w-full h-full object-cover rounded-xl border-4 border-white shadow-2xl [backface-visibility:hidden] [transform:rotateY(calc(var(--i)*360deg/var(--n)))_translateZ(250px)]">
+            </div>
+        </div>
+        
+        <div class="mt-16 text-red-400 animate-bounce text-2xl">❤️❤️❤️</div>
+    </div>
+
     <script>
+        const yesBtn = document.getElementById('yesBtn');
         const noBtn = document.getElementById('noBtn');
+        const questionSection = document.getElementById('question-section');
+        const successSection = document.getElementById('success-section');
+
+        // Logic for the "No" button to jump around
         noBtn.addEventListener('mouseover', () => {
             const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
             const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
             noBtn.style.position = 'fixed';
             noBtn.style.left = `${x}px`;
             noBtn.style.top = `${y}px`;
+        });
+
+        // Toggle sections on click
+        yesBtn.addEventListener('click', () => {
+            questionSection.classList.add('hidden');
+            successSection.classList.remove('hidden');
+            successSection.classList.add('flex');
         });
     </script>
 </body>
