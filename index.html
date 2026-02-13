@@ -9,50 +9,54 @@
     <style>
         /* Global Reset */
         html, body {
-            display: grid;
             height: 100%;
             margin: 0;
             padding: 0;
             overflow: hidden;
-        }
-
-        body {
             background: #fff3ed;
+            font-family: sans-serif;
         }
 
-        /* 3D Scene */
-        .scene {
+        /* 1. The Camera Wrapper (Perspective Only) */
+        .camera-view {
+            width: 100vw;
+            height: 100vh;
             display: grid;
             place-items: center;
             overflow: hidden;
-            perspective: 60em;
-            mask: linear-gradient(90deg, #0000, red 10% 90%, #0000);
-            height: 100vh;
-            width: 100vw;
+            perspective: 60em; /* Depth of field */
             
-            /* --- PERMANENT ZOOM FIX --- */
-            /* This mimics your 300% browser zoom */
-            /* We start with 2.2x zoom for PC */
-            transform: scale(2.2); 
+            /* Gradient Mask to fade sides */
+            mask: linear-gradient(90deg, #0000 0%, #000 15%, #000 85%, #0000 100%);
         }
 
-        /* The Spinner */
+        /* 2. The Zoom Layer (Scale Only) */
+        .zoom-wrapper {
+            transform-style: preserve-3d;
+            display: grid;
+            place-items: center;
+            /* This will be controlled by the slider/JS */
+            transform: scale(2); 
+            transition: transform 0.1s ease-out; /* Smooth zooming */
+        }
+
+        /* 3. The Spinner (Rotation Only) */
         .a3d {
             display: grid;
             place-self: center;
             transform-style: preserve-3d;
-            /* --- SPEED ADJUSTMENT --- */
-            /* Changed to 240s (4 minutes!) for a very slow, romantic spin */
-            animation: ry 240s linear infinite; 
+            animation: ry 240s linear infinite; /* 4 minutes per loop */
         }
 
         @keyframes ry {
             to { transform: rotateY(1turn); }
         }
 
-        /* The Card */
+        /* 4. The Card */
         .card {
+            /* Base size */
             --w: 10em; 
+            
             --ba: calc(1turn / var(--n));
             grid-area: 1 / 1;
             width: var(--w);
@@ -64,6 +68,7 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.15);
             backface-visibility: hidden;
 
+            /* The Math to make the ring */
             transform:
                 rotateY(calc(var(--i) * var(--ba)))
                 translateZ(calc(-1 * (0.5 * var(--w) + 0.5em) / tan(0.5 * var(--ba))));
@@ -71,42 +76,68 @@
 
         .message {
             position: absolute;
-            top: 5%; /* Moved up slightly to make room for the zoomed ring */
+            top: 5%;
             width: 100%;
             text-align: center;
             color: #e11d48;
-            font-family: sans-serif;
             font-weight: bold;
             font-size: 2.5rem;
             z-index: 100;
             text-shadow: 0 2px 4px rgba(255,255,255,0.8);
-            pointer-events: none; /* Lets you click through text to the photos */
+            pointer-events: none;
         }
 
-        /* --- MOBILE TWEAKS --- */
+        /* --- CONTROLS --- */
+        .controls {
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 200;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 15px;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .controls label {
+            color: #e11d48;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        input[type=range] {
+            width: 200px;
+            accent-color: #e11d48;
+        }
+
+        /* Mobile Adjustments */
         @media (max-width: 768px) {
-            .scene {
-                /* Even bigger zoom for phones so it fills the screen */
-                transform: scale(2.8); 
-            }
-            .card {
-                /* Slightly smaller base card so 104 fits better */
-                --w: 5em; 
-            }
-            .message {
-                font-size: 1.5rem;
-                top: 8%;
-            }
+            .card { --w: 5em; } /* Smaller cards for mobile ring */
+            .message { font-size: 1.5rem; top: 8%; }
+            .controls { bottom: 30px; width: 80%; }
+            input[type=range] { width: 100%; }
         }
     </style>
 </head>
 
 <body onclick="document.getElementById('bg-music').play()">
 
-    <h1 class="message font-sans">Yeeeeeey! Lovee youuuu!</h1>
+    <h1 class="message font-sans">Yeeey! Lovee youuuu!</h1>
 
-    <div class="scene">
-        <div class="a3d" id="carousel"></div>
+    <div class="camera-view">
+        <div class="zoom-wrapper" id="zoom-layer">
+            <div class="a3d" id="carousel"></div>
+        </div>
+    </div>
+
+    <div class="controls">
+        <label>Adjust Zoom Size 🔍</label>
+        <input type="range" min="0.5" max="6" step="0.1" value="2.5" id="zoom-slider">
     </div>
 
     <audio id="bg-music" autoplay loop>
@@ -118,6 +149,7 @@
         const FOLDER_NAME = 'Valentines'; 
         const CAROUSEL = document.getElementById('carousel');
 
+        // 1. Generate Images
         CAROUSEL.style.setProperty('--n', TOTAL_IMAGES);
 
         for (let i = 1; i <= TOTAL_IMAGES; i++) {
@@ -129,10 +161,29 @@
             img.onerror = function() {
                 this.src = `${FOLDER_NAME}/${i}.JPG`; 
             };
-
             img.alt = `Memory ${i}`;
             CAROUSEL.appendChild(img);
         }
+
+        // 2. Zoom Logic
+        const slider = document.getElementById('zoom-slider');
+        const zoomLayer = document.getElementById('zoom-layer');
+
+        // Function to update zoom
+        function updateZoom() {
+            zoomLayer.style.transform = `scale(${slider.value})`;
+        }
+
+        // Listen for slider moves
+        slider.addEventListener('input', updateZoom);
+
+        // Set initial zoom based on screen size
+        if (window.innerWidth < 768) {
+            slider.value = 4.5; // Default to huge zoom on mobile
+        } else {
+            slider.value = 2.5; // Default to medium zoom on PC
+        }
+        updateZoom(); // Apply immediately
     </script>
 
 </body>
