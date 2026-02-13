@@ -4,10 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Be My Valentine? ❤️</title>
+    <title>Be My Valentine?</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Floating animation for the title */
         .floating {
             animation: float 3s ease-in-out infinite;
         }
@@ -23,26 +22,6 @@
                 transform: translateY(-10px);
             }
         }
-
-        /* 3D Carousel Animation */
-        @keyframes spin-y {
-            from {
-                transform: rotateY(0deg);
-            }
-
-            to {
-                transform: rotateY(360deg);
-            }
-        }
-
-        .animate-spin-3d {
-            animation: spin-y 20s linear infinite;
-        }
-
-        /* Responsive 3D depth */
-        .perspective-container {
-            perspective: 1000px;
-        }
     </style>
 </head>
 
@@ -53,17 +32,17 @@
 
         <div class="flex gap-4 justify-center">
             <button id="yesBtn"
-                class="bg-red-500 hover:bg-red-600 text-white px-8 py-3 rounded-full text-xl font-semibold transition-all transform hover:scale-110 shadow-lg">
+                class="bg-red-500 hover:bg-red-600 text-white px-8 py-3 rounded-full text-xl font-semibold transition-all transform hover:scale-110">
                 Yes!
             </button>
-            <button id="noBtn" class="bg-gray-400 text-white px-8 py-3 rounded-full text-xl font-semibold shadow-md">
+            <button id="noBtn" class="bg-gray-400 text-white px-8 py-3 rounded-full text-xl font-semibold">
                 No
             </button>
         </div>
     </div>
 
-    <div id="success-section" class="hidden text-center p-6 w-full flex flex-col items-center">
-        <h1 class="text-4xl font-bold text-red-600 mb-12">Yay! See you on the 14th! 🥰</h1>
+    <div id="success-section" class="hidden text-center p-6">
+        <h1 class="text-4xl font-bold text-red-600 mb-6">Yay! See you on the 14th! 🥰</h1>
 
         <div class="perspective-container">
             <div class="relative w-48 h-64 [transform-style:preserve-3d] animate-spin-3d" style="--n: 6;">
@@ -78,7 +57,7 @@
             </div>
         </div>
 
-        <div class="mt-16 text-red-400 animate-bounce text-2xl">❤️❤️❤️</div>
+        <div class="mt-8 text-red-400 animate-bounce text-2xl">❤️❤️❤️</div>
     </div>
 
     <script>
@@ -87,20 +66,21 @@
         const questionSection = document.getElementById('question-section');
         const successSection = document.getElementById('success-section');
 
-        // Logic for the "No" button to jump around
+        // Logic for the "No" button to run away (optional but funny)
         noBtn.addEventListener('mouseover', () => {
             const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
             const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
-            noBtn.style.position = 'fixed';
+            noBtn.style.position = 'absolute';
             noBtn.style.left = `${x}px`;
             noBtn.style.top = `${y}px`;
         });
 
-        // Toggle sections on click
+        // Show photos on Yes
         yesBtn.addEventListener('click', () => {
             questionSection.classList.add('hidden');
             successSection.classList.remove('hidden');
-            successSection.classList.add('flex');
+
+            // Optional: Trigger confetti or music here
         });
     </script>
 </body>
