@@ -1,67 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Yay! 🥰</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        html, body { 
-            height: 100%; 
-            margin: 0; 
+        /* 1. Global Reset */
+        html,
+        body {
+            height: 100%;
+            margin: 0;
             padding: 0;
-            overflow: hidden; /* Hide scrollbars */
-        }
-        
-        body { 
-            background: #fff3ed; 
-            display: grid;
-            place-items: center; /* Center everything vertically */
+            overflow: hidden;
         }
 
-        .scene {
-            width: 100vw; /* Force full width */
-            height: 100vh; /* Force full height */
+        body {
+            background: #fff3ed;
             display: grid;
             place-items: center;
-            perspective: 1000px; /* Adjusted perspective for wider view */
-            /* Lateral fade mask */
+        }
+
+        /* 2. The 3D Scene Wrapper */
+        .scene {
+            width: 100vw;
+            height: 100vh;
+            display: grid;
+            place-items: center;
+            perspective: 1200px;
+            /* Fade effect */
             mask: linear-gradient(90deg, transparent 0%, #000 15%, #000 85%, transparent 100%);
             -webkit-mask: linear-gradient(90deg, transparent 0%, #000 15%, #000 85%, transparent 100%);
         }
 
+        /* 3. The Spinner Container */
         .a3d {
+            display: grid;
             transform-style: preserve-3d;
-            /* Spin animation */
-            animation: ry 30s linear infinite; 
-            display: flex; /* Helps with centering the ring origin */
-            align-items: center;
-            justify-content: center;
+            animation: ry 25s linear infinite;
         }
 
-        @keyframes ry { 
-            from { transform: rotateY(0turn); }
-            to { transform: rotateY(1turn); } 
+        @keyframes ry {
+            from {
+                transform: rotateY(0turn);
+            }
+
+            to {
+                transform: rotateY(1turn);
+            }
         }
 
+        /* 4. The Card Logic */
         .card {
-            position: absolute; /* Essential for stacking in the center initially */
-            --w: 300px; /* Fixed card width (adjust as needed) */
-            /* Calculate angle per card: 360 / n */
+            grid-area: 1 / 1;
+
+            --w: 300px;
+            /* Width for PC */
             --ba: calc(360deg / var(--n));
-            
+
             width: var(--w);
-            aspect-ratio: 3 / 4; /* Portrait aspect ratio */
+            aspect-ratio: 3 / 4;
             object-fit: cover;
             border-radius: 1rem;
-            
-            /* Apply the 3D transformation */
-            transform: 
-                rotateY(calc(var(--i) * var(--ba)))
-                translateZ(600px); /* Increased radius for wider spread on PC */
-                
-            /* Styling */
-            box-shadow: 0 0 20px rgba(0,0,0,0.3);
+
+            /* Pushes photos out to form the ring */
+            transform:
+                rotateY(calc(var(--i) * var(--ba))) translateZ(750px);
+            /* Radius of the ring */
+
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
             border: 4px solid white;
             backface-visibility: hidden;
             -webkit-backface-visibility: hidden;
@@ -77,29 +85,30 @@
             font-weight: bold;
             font-size: 3rem;
             z-index: 50;
-            text-shadow: 0 2px 4px rgba(255,255,255,0.8);
+            text-shadow: 0 2px 4px rgba(255, 255, 255, 0.8);
         }
-        
-        /* Mobile adjustment */
+
+        /* Mobile Responsiveness */
         @media (max-width: 768px) {
             .card {
                 --w: 160px;
-                transform: 
-                    rotateY(calc(var(--i) * var(--ba)))
-                    translateZ(280px); /* Smaller radius for mobile */
+                transform:
+                    rotateY(calc(var(--i) * var(--ba))) translateZ(280px);
             }
+
             .message {
                 font-size: 2rem;
             }
         }
     </style>
 </head>
+
 <body>
 
     <h1 class="message">Yay! See you on the 14th! 🥰</h1>
 
     <div class="scene">
-        <div class="a3d" style="--n: 6">
+        <div class="a3d" style="--n: 5">
             <img class="card" style="--i: 0" src="your-photo-1.jpg" alt="Us 1">
             <img class="card" style="--i: 1" src="your-photo-2.jpg" alt="Us 2">
             <img class="card" style="--i: 2" src="your-photo-3.jpg" alt="Us 3">
@@ -113,4 +122,5 @@
     </audio>
 
 </body>
+
 </html>
