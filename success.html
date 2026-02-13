@@ -6,7 +6,6 @@
     <title>Yay! 🥰</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* This ensures the entire page is a flex container that centers its children */
         body {
             margin: 0;
             min-height: 100vh;
@@ -19,72 +18,82 @@
             font-family: sans-serif;
         }
 
-        .gallery {
-            --d: 10s; /* total duration */
-            --n: 6;    /* number of images */
+        /* 3D Scene Setup */
+        .scene {
             display: grid;
-            width: 250px;
-            /* Added relative and margin auto for extra centering safety */
-            position: relative;
-            margin: 0 auto;
-        }
-
-        .gallery > img {
-            grid-area: 1/1;
+            perspective: 60em; /* Depth of the 3D effect */
             width: 100%;
-            aspect-ratio: 1;
+            height: 400px;
+        }
+
+        .a3d {
+            place-self: center;
+            transform-style: preserve-3d;
+            animation: rotate-carousel 20s linear infinite;
+        }
+
+        @keyframes rotate-carousel {
+            from { transform: rotateY(0turn); }
+            to { transform: rotateY(1turn); }
+        }
+
+        .card {
+            /* Radius Calculation for 5 images */
+            --w: 12em; 
+            --n: 5; 
+            --ba: 1turn / var(--n);
+            grid-area: 1 / 1;
+            width: var(--w);
+            aspect-ratio: 7 / 10;
             object-fit: cover;
-            border: 10px solid #f2f2f2;
-            box-shadow: 0 0 10px rgba(0,0,0,0.2);
-            border-radius: 15px;
-            animation: slide var(--d) infinite;
+            border-radius: 1.5em;
+            border: 5px solid white;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            backface-visibility: hidden;
+            
+            /* Logic to place each card in the ring */
+            transform: 
+                rotateY(calc(var(--i) * var(--ba))) 
+                translateZ(15em); /* Adjust this to make the circle bigger/smaller */
         }
 
-        .gallery img:last-child {
-            animation-name: slide-last;
-        }
-
-        /* Unique delays and rotations for your 6 photos */
-        .gallery > img:nth-child(1) { animation-delay: calc(0/var(--n) * var(--d)); --r: -12deg; }
-        .gallery > img:nth-child(2) { animation-delay: calc(-1/var(--n) * var(--d)); --r: 8deg; }
-        .gallery > img:nth-child(3) { animation-delay: calc(-2/var(--n) * var(--d)); --r: -15deg; }
-        .gallery > img:nth-child(4) { animation-delay: calc(-3/var(--n) * var(--d)); --r: 12deg; }
-        .gallery > img:nth-child(5) { animation-delay: calc(-4/var(--n) * var(--d)); --r: -5deg; }
-        .gallery > img:nth-child(6) { animation-delay: calc(-5/var(--n) * var(--d)); --r: 10deg; }
-
-        @keyframes slide {
-            0%, 100%, 83.33% { transform: translateX(0%) rotate(var(--r)); z-index: 3; }
-            8.33% { transform: translateX(-120%) rotate(var(--r)); z-index: 3; }
-            8.34% { transform: translateX(-120%) rotate(var(--r)); z-index: -3; }
-            16.66%, 83.33% { transform: translateX(0%) rotate(var(--r)); z-index: -3; }
-        }
-
-        @keyframes slide-last {
-            0%, 100%, 91.66% { transform: translateX(0%) rotate(var(--r)); z-index: 3; }
-            8.33% { transform: translateX(120%) rotate(var(--r)); z-index: 3; }
-            8.34% { transform: translateX(120%) rotate(var(--r)); z-index: -3; }
-            16.66%, 91.66% { transform: translateX(0%) rotate(var(--r)); z-index: -3; }
+        /* Hover effect to pause rotation */
+        .scene:hover .a3d {
+            animation-play-state: paused;
         }
     </style>
 </head>
 <body>
 
-    <div class="flex flex-col items-center justify-center text-center">
-        <h1 class="text-4xl font-bold text-red-600 mb-12">Yay! See you on the 14th! 🥰</h1>
+    <div class="flex flex-col items-center justify-center text-center w-full">
+        <h1 class="text-4xl font-bold text-red-600 mb-16 z-10">Yay! See you on the 14th! 🥰</h1>
         
-        <div class="gallery">
-            <img src="your-photo-1.jpg" alt="Us 1">
-            <img src="your-photo-2.jpg" alt="Us 2">
-            <img src="your-photo-3.jpg" alt="Us 3">
-            <img src="your-photo-4.jpg" alt="Us 4">
-            <img src="your-photo-5.jpg" alt="Us 5">
+        <div class="scene">
+            <div class="a3d" style="--n: 5">
+                <img class="card" style="--i: 0" src="your-photo-1.jpg" alt="Photo 1">
+                <img class="card" style="--i: 1" src="your-photo-2.jpg" alt="Photo 2">
+                <img class="card" style="--i: 2" src="your-photo-3.jpg" alt="Photo 3">
+                <img class="card" style="--i: 3" src="your-photo-4.jpg" alt="Photo 4">
+                <img class="card" style="--i: 4" src="your-photo-5.jpg" alt="Photo 5">
+            </div>
         </div>
         
-        <audio autoplay loop>
+        <audio id="myAudio" loop>
             <source src="Music.mp3" type="audio/mpeg">
         </audio>
-        <div class="mt-12 text-red-400 animate-bounce text-3xl">❤️❤️❤️</div>
+
+        <div class="mt-16 text-red-400 animate-bounce text-3xl z-10">❤️❤️❤️</div>
     </div>
+
+    <script>
+        // Start audio on first click anywhere to bypass browser blocks
+        window.addEventListener('load', () => {
+            const audio = document.getElementById('myAudio');
+            document.body.addEventListener('click', () => {
+                audio.play();
+            }, { once: true });
+        });
+    </script>
 
 </body>
 </html>
