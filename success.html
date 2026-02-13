@@ -6,51 +6,68 @@
     <title>Yay! 🥰</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* This animation handles the 3D spinning on the Y axis */
-        @keyframes spin-y {
-            from { transform: rotateY(0deg); }
-            to { transform: rotateY(360deg); }
+        /* 3D Scene Setup */
+        .scene {
+            display: grid;
+            overflow: hidden;
+            perspective: 35em;
+            /* Lateral fade effect to smooth the edges */
+            mask: linear-gradient(90deg, #0000, red 20% 80%, #0000);
+            width: 100%;
+            height: 600px;
         }
 
-        .animate-spin-3d {
-            animation: spin-y 20s linear infinite;
+        .a3d {
+            place-self: center;
+            transform-style: preserve-3d;
+            /* Spin + Slide from Right to Left */
+            animation: move-and-rotate 20s linear infinite;
         }
 
-        /* 3D Depth Setup */
-        .perspective-container {
-            perspective: 1000px;
+        @keyframes move-and-rotate {
+            0% { transform: translateX(100vw) rotateY(0turn); }
+            100% { transform: translateX(-100vw) rotateY(1turn); }
         }
 
-        /* Logic to place images in a circle based on index (--i) and total (--n) */
-        .carousel-card {
+        .card {
+            --w: 12em; 
+            --ba: 1turn / var(--n);
+            grid-area: 1 / 1;
+            width: var(--w);
+            aspect-ratio: 7 / 10;
+            object-fit: cover;
+            border-radius: 1.5em;
+            backface-visibility: hidden;
+            border: 4px solid white;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            /* The specific 3D ring math */
             transform: 
-                rotateY(calc(var(--i) * (360deg / var(--n)))) 
-                translateZ(280px); /* 280px is the radius of your ring */
+                rotateY(calc(var(--i) * var(--ba))) 
+                translateZ(calc(-1 * (.5 * var(--w) + 2em) / tan(.5 * var(--ba))));
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .a3d { animation-duration: 80s; }
         }
     </style>
 </head>
-<body class="bg-pink-100 h-screen flex flex-col items-center justify-center overflow-hidden font-sans">
+<body class="bg-[#fff3ed] h-screen flex flex-col items-center justify-center overflow-hidden font-sans">
 
     <div class="text-center w-full flex flex-col items-center">
-        <h1 class="text-4xl font-bold text-red-600 mb-12">Yay! See you on the 14th! 🥰</h1>
+        <h1 class="text-4xl font-bold text-red-600 mb-4 z-10">Yay! See you on the 14th! 🥰</h1>
         
-        <div class="perspective-container relative flex items-center justify-center h-64 md:h-96 w-full">
-            
-            <div class="relative w-40 h-56 md:w-48 md:h-64 [transform-style:preserve-3d] animate-spin-3d" style="--n: 6;">
-                
-                <img src="your-photo-1.jpg" style="--i:0" class="carousel-card absolute inset-0 w-full h-full object-cover rounded-xl border-4 border-white shadow-2xl [backface-visibility:hidden]">
-                <img src="your-photo-2 copy 2.jpg" style="--i:1" class="carousel-card absolute inset-0 w-full h-full object-cover rounded-xl border-4 border-white shadow-2xl [backface-visibility:hidden]">
-                <img src="your-photo-2 copy 3.jpg" style="--i:2" class="carousel-card absolute inset-0 w-full h-full object-cover rounded-xl border-4 border-white shadow-2xl [backface-visibility:hidden]">
-                <img src="your-photo-2 copy 4.jpg" style="--i:3" class="carousel-card absolute inset-0 w-full h-full object-cover rounded-xl border-4 border-white shadow-2xl [backface-visibility:hidden]">
-                <img src="your-photo-2 copy 5.jpg" style="--i:4" class="carousel-card absolute inset-0 w-full h-full object-cover rounded-xl border-4 border-white shadow-2xl [backface-visibility:hidden]">
-                <img src="your-photo-2.jpg" style="--i:5" class="carousel-card absolute inset-0 w-full h-full object-cover rounded-xl border-4 border-white shadow-2xl [backface-visibility:hidden]">
-                
+        <div class="scene">
+            <div class="a3d" style="--n: 6">
+                <img class="card" style="--i: 0" src="your-photo-1.jpg" alt="Us 1">
+                <img class="card" style="--i: 1" src="your-photo-2.jpg" alt="Us 2">
+                <img class="card" style="--i: 2" src="your-photo-3.jpg" alt="Us 3">
+                <img class="card" style="--i: 3" src="your-photo-4.jpg" alt="Us 4">
+                <img class="card" style="--i: 4" src="your-photo-5.jpg" alt="Us 5">
+                <img class="card" style="--i: 5" src="your-photo-6.jpg" alt="Us 6">
             </div>
         </div>
-        
-        <div class="mt-16 text-red-400 animate-bounce text-2xl">❤️❤️❤️</div>
-        
-        <a href="index.html" class="mt-8 text-sm text-pink-400 hover:underline">Back to start</a>
+
+        <div class="mt-8 text-red-400 animate-bounce text-2xl">❤️❤️❤️</div>
     </div>
 
 </body>
