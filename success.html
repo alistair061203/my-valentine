@@ -10,12 +10,14 @@
         /* Based on your reference snippet */
         html,
         body {
+            display: grid;
+            height: 100%;
+            margin: 0;
+        }
+
+        body {
             background: #fff3ed;
             overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
         }
 
         .scene,
@@ -65,30 +67,44 @@
                 /* Negative translateZ pushes them away into a wider ring */
                 translateZ(calc(-1 * (0.5 * var(--w) + 0.5em) / tan(0.5 * var(--ba))));
         }
+
+        .message {
+            position: absolute;
+            top: 15%;
+            width: 100%;
+            text-align: center;
+            color: pink;
+            font-weight: semi-bold;
+            font-size: 2.5rem;
+            z-index: 100;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            letter-spacing: 0.05em;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 10px;
+            padding: 0 2rem;
+            line-height: 1.2;
+        }
     </style>
 </head>
 
 <body>
 
-    <div class="flex flex-col items-center justify-center flex-1 w-full px-4">
+    <h1 class="message font-sans">Yeeeeeey! Lovee youuu! 🥰</h1>
 
-        <h1 class="text-4xl md:text-5xl font-serif font-semibold tracking-wide text-pink-500 mb-8 text-center">
-            Yeeeeeey! Lovee youuu! 🥰
-        </h1>
-
-        <div class="scene">
-            <div class="a3d" style="--n: 5">
-                <img class="card" style="--i: 0" src="your-photo-1.jpg">
-                <img class="card" style="--i: 1" src="your-photo-2.jpg">
-                <img class="card" style="--i: 2" src="your-photo-3.jpg">
-                <img class="card" style="--i: 3" src="your-photo-4.jpg">
-                <img class="card" style="--i: 4" src="your-photo-5.jpg">
-            </div>
+    <div class="scene">
+        <div class="a3d" style="--n: 5">
+            <img class="card" style="--i: 0" src="your-photo-1.jpg" alt="Us 1">
+            <img class="card" style="--i: 1" src="your-photo-2.jpg" alt="Us 2">
+            <img class="card" style="--i: 2" src="your-photo-3.jpg" alt="Us 3">
+            <img class="card" style="--i: 3" src="your-photo-4.jpg" alt="Us 4">
+            <img class="card" style="--i: 4" src="your-photo-5.jpg" alt="Us 5">
         </div>
-
     </div>
 
-</body>
+    <audio autoplay loop>
+        <source src="Music.mp3" type="audio/mpeg">
+    </audio>
 
+</body>
 
 </html>
