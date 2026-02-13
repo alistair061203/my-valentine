@@ -6,14 +6,7 @@
     <title>Yay! 🥰</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Floating animation for the title */
-        .floating { animation: float 3s ease-in-out infinite; }
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
-        /* 3D Carousel Animation */
+        /* This animation handles the 3D spinning on the Y axis */
         @keyframes spin-y {
             from { transform: rotateY(0deg); }
             to { transform: rotateY(360deg); }
@@ -23,29 +16,41 @@
             animation: spin-y 20s linear infinite;
         }
 
-        /* Responsive 3D depth */
+        /* 3D Depth Setup */
         .perspective-container {
             perspective: 1000px;
         }
+
+        /* Logic to place images in a circle based on index (--i) and total (--n) */
+        .carousel-card {
+            transform: 
+                rotateY(calc(var(--i) * (360deg / var(--n)))) 
+                translateZ(280px); /* 280px is the radius of your ring */
+        }
     </style>
 </head>
-<body>
+<body class="bg-pink-100 h-screen flex flex-col items-center justify-center overflow-hidden font-sans">
 
-    <div class="text-center">
-        <h1 class="text-4xl font-bold text-red-600 mb-4">Yay! See you on the 14th! 🥰</h1>
+    <div class="text-center w-full flex flex-col items-center">
+        <h1 class="text-4xl font-bold text-red-600 mb-12">Yay! See you on the 14th! 🥰</h1>
         
-        <div class="scene">
-            <div class="a3d" style="--n: 6">
-                <img class="card" style="--i: 0" src="your-photo-1.jpg">
-                <img class="card" style="--i: 1" src="your-photo-2 copy 2.jpg">
-                <img class="card" style="--i: 2" src="your-photo-2 copy 3.jpg">
-                <img class="card" style="--i: 3" src="your-photo-2 copy 4.jpg">
-                <img class="card" style="--i: 4" src="your-photo-2 copy 5.jpg">
-                <img class="card" style="--i: 5" src="your-photo-2.jpg">
+        <div class="perspective-container relative flex items-center justify-center h-64 md:h-96 w-full">
+            
+            <div class="relative w-40 h-56 md:w-48 md:h-64 [transform-style:preserve-3d] animate-spin-3d" style="--n: 6;">
+                
+                <img src="your-photo-1.jpg" style="--i:0" class="carousel-card absolute inset-0 w-full h-full object-cover rounded-xl border-4 border-white shadow-2xl [backface-visibility:hidden]">
+                <img src="your-photo-2 copy 2.jpg" style="--i:1" class="carousel-card absolute inset-0 w-full h-full object-cover rounded-xl border-4 border-white shadow-2xl [backface-visibility:hidden]">
+                <img src="your-photo-2 copy 3.jpg" style="--i:2" class="carousel-card absolute inset-0 w-full h-full object-cover rounded-xl border-4 border-white shadow-2xl [backface-visibility:hidden]">
+                <img src="your-photo-2 copy 4.jpg" style="--i:3" class="carousel-card absolute inset-0 w-full h-full object-cover rounded-xl border-4 border-white shadow-2xl [backface-visibility:hidden]">
+                <img src="your-photo-2 copy 5.jpg" style="--i:4" class="carousel-card absolute inset-0 w-full h-full object-cover rounded-xl border-4 border-white shadow-2xl [backface-visibility:hidden]">
+                <img src="your-photo-2.jpg" style="--i:5" class="carousel-card absolute inset-0 w-full h-full object-cover rounded-xl border-4 border-white shadow-2xl [backface-visibility:hidden]">
+                
             </div>
         </div>
         
-        <a href="index.html" class="mt-8 inline-block text-red-400 hover:text-red-600 underline">Back to start</a>
+        <div class="mt-16 text-red-400 animate-bounce text-2xl">❤️❤️❤️</div>
+        
+        <a href="index.html" class="mt-8 text-sm text-pink-400 hover:underline">Back to start</a>
     </div>
 
 </body>
