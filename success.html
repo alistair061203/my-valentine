@@ -14,17 +14,8 @@
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            /* vertical center */
             align-items: center;
-            /* horizontal center */
-            height: 100vh;
-        }
-
-
-        body {
-            background: #fff3ed;
-            overflow: hidden;
+            min-height: 100vh;
         }
 
         .scene,
@@ -79,27 +70,25 @@
 
 <body>
 
-    <h1
-        class="text-4xl md:text-5xl font-serif font-semibold tracking-wide text-pink-500 mb-10 text-center drop-shadow-sm">
-        Yeeeeeey! Lovee youuu! 🥰
-    </h1>
+    <div class="flex flex-col items-center justify-center flex-1 w-full px-4">
 
+        <h1 class="text-4xl md:text-5xl font-serif font-semibold tracking-wide text-pink-500 mb-8 text-center">
+            Yeeeeeey! Lovee youuu! 🥰
+        </h1>
 
-
-    <div class="scene">
-        <div class="a3d" style="--n: 5">
-            <img class="card" style="--i: 0" src="your-photo-1.jpg" alt="Us 1">
-            <img class="card" style="--i: 1" src="your-photo-2.jpg" alt="Us 2">
-            <img class="card" style="--i: 2" src="your-photo-3.jpg" alt="Us 3">
-            <img class="card" style="--i: 3" src="your-photo-4.jpg" alt="Us 4">
-            <img class="card" style="--i: 4" src="your-photo-5.jpg" alt="Us 5">
+        <div class="scene">
+            <div class="a3d" style="--n: 5">
+                <img class="card" style="--i: 0" src="your-photo-1.jpg">
+                <img class="card" style="--i: 1" src="your-photo-2.jpg">
+                <img class="card" style="--i: 2" src="your-photo-3.jpg">
+                <img class="card" style="--i: 3" src="your-photo-4.jpg">
+                <img class="card" style="--i: 4" src="your-photo-5.jpg">
+            </div>
         </div>
+
     </div>
 
-    <audio autoplay loop>
-        <source src="Music.mp3" type="audio/mpeg">
-    </audio>
-
 </body>
+
 
 </html>
