@@ -1,78 +1,96 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Yay! 🥰</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Exact CSS from your snippet */
-        html, body { display: grid; height: 100%; margin: 0; }
-        body { background: #fff3ed; overflow: hidden; }
+        /* Based on your reference snippet */
+        html,
+        body {
+            display: grid;
+            height: 100%;
+            margin: 0;
+        }
 
-        .scene, .a3d { display: grid; }
+        body {
+            background: #fff3ed;
+            overflow: hidden;
+        }
+
+        .scene,
+        .a3d {
+            display: grid;
+        }
 
         .scene {
-            /* prevent scrollbars */
             overflow: hidden;
-            /* for 3D look; smaller = more extreme effect */
             perspective: 35em;
+            /* Extreme 3D depth */
+            /* This creates the lateral fade from your reference image */
             mask: linear-gradient(90deg, #0000, red 20% 80%, #0000);
             height: 100vh;
             width: 100vw;
         }
 
         .a3d {
-            place-self: center; /* middle align */
+            place-self: center;
             transform-style: preserve-3d;
             animation: ry 30s linear infinite;
+            /* Slow, continuous rotation */
         }
 
-        @keyframes ry { to { transform: rotateY(1turn); } }
+        @keyframes ry {
+            to {
+                transform: rotateY(1turn);
+            }
+        }
 
         .card {
-            /* base card width */
-            --w: 15em;
-            /* compute base angle corresponding to a card (360deg / n) */
-            --ba: calc(360deg / var(--n));
-            grid-area: 1/ 1; /* STACK THEM IN THE CENTER FIRST */
+            --w: 18em;
+            /* Card width */
+            --ba: calc(1turn / var(--n));
+            /* Angle per card */
+            grid-area: 1/ 1;
+            /* VERY IMPORTANT: Stacks them in one spot first */
             width: var(--w);
             aspect-ratio: 7 / 10;
             object-fit: cover;
             border-radius: 1.5em;
-            border: 4px solid white;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             backface-visibility: hidden;
-            
-            /* Your exact transform chain */
-            transform: 
+
+            /* The specific transform chain from your jellyfish snippet */
+            transform:
                 rotateY(calc(var(--i) * var(--ba)))
-                /* The tan math ensures they sit side-by-side */
-                translateZ(calc(0.5 * var(--w) / tan(0.5 * var(--ba))));
+                /* Negative translateZ pushes them away into a wider ring */
+                translateZ(calc(-1 * (0.5 * var(--w) + 0.5em) / tan(0.5 * var(--ba))));
         }
 
         .message {
             position: absolute;
-            top: 10%;
+            top: 15%;
             width: 100%;
             text-align: center;
             color: #e11d48;
             font-weight: bold;
             font-size: 2.5rem;
-            z-index: 50;
+            z-index: 100;
         }
     </style>
 </head>
+
 <body>
 
-    <h1 class="message">Yay! See you on the 14th! 🥰</h1>
+    <h1 class="message font-sans">Yay! See you on the 14th! 🥰</h1>
 
     <div class="scene">
-        <div class="a3d" style="--n: 5">
+        <div class="a3d" style="--n: 6">
             <img class="card" style="--i: 0" src="your-photo-1.jpg" alt="Us 1">
             <img class="card" style="--i: 1" src="your-photo-2.jpg" alt="Us 2">
             <img class="card" style="--i: 2" src="your-photo-3.jpg" alt="Us 3">
-            <img class="card" style="--i: 4" src="your-photo-4.jpg" alt="Us 4">
+            <img class="card" style="--i: 3" src="your-photo-4.jpg" alt="Us 4">
             <img class="card" style="--i: 4" src="your-photo-5.jpg" alt="Us 5">
         </div>
     </div>
@@ -82,4 +100,5 @@
     </audio>
 
 </body>
+
 </html>
