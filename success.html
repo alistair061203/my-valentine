@@ -6,94 +6,97 @@
     <title>Yay! 🥰</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body {
-            margin: 0;
-            min-height: 100vh;
+        /* Based on your provided snippet logic */
+        html, body { display: grid; height: 100%; margin: 0; }
+        
+        body { 
+            background: #fff3ed; 
+            overflow: hidden;
+            font-family: sans-serif;
+        }
+
+        .container {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            background: #fff3ed;
-            overflow: hidden;
         }
 
-        /* 1. The Container */
+        .scene, .a3d { display: grid; }
+
         .scene {
-            position: relative;
-            width: 100%;
-            height: 400px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            /* This gives the 3D depth */
-            perspective: 1200px; 
+            overflow: hidden;
+            /* 3D depth; smaller = more extreme effect */
+            perspective: 35em;
+            /* Lateral fade effect from your snippet */
+            mask: linear-gradient(90deg, #0000, red 20% 80%, #0000);
+            width: 100vw;
+            height: 500px;
         }
 
-        /* 2. The Rotating Ring */
-        .carousel {
-            position: relative;
-            width: 200px;
-            height: 280px;
+        .a3d {
+            place-self: center;
             transform-style: preserve-3d;
-            animation: rotate 20s linear infinite;
+            /* Rotation speed */
+            animation: ry 20s linear infinite;
         }
 
-        @keyframes rotate {
-            from { transform: rotateY(0deg); }
-            to { transform: rotateY(360deg); }
+        @keyframes ry { 
+            to { transform: rotateY(1turn); } 
         }
 
-        /* 3. The Individual Cards */
         .card {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border-radius: 15px;
-            border: 5px solid white;
+            /* Base card width */
+            --w: 15em;
+            /* Base angle per card (360deg / total) */
+            --ba: calc(1turn / var(--n));
+            grid-area: 1 / 1;
+            width: var(--w);
+            aspect-ratio: 7 / 10;
             object-fit: cover;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            /* Prevents seeing the back of the photo */
-            backface-visibility: hidden; 
+            border-radius: 1.5em;
+            backface-visibility: hidden;
             
-            /* Logic for 5 images: 360 / 5 = 72 degrees each */
-            /* transform: rotateY(angle) translateZ(radius) */
+            /* The specific transform chain from your snippet */
+            /* This calculates the exact radius needed for cards to sit edge-to-edge */
+            transform: 
+                rotateY(calc(var(--i) * var(--ba)))
+                translateZ(calc(.5 * var(--w) / tan(.5 * var(--ba))));
         }
 
-        .card:nth-child(1) { transform: rotateY(0deg) translateZ(250px); }
-        .card:nth-child(2) { transform: rotateY(72deg) translateZ(250px); }
-        .card:nth-child(3) { transform: rotateY(144deg) translateZ(250px); }
-        .card:nth-child(4) { transform: rotateY(216deg) translateZ(250px); }
-        .card:nth-child(5) { transform: rotateY(288deg) translateZ(250px); }
+        @media (prefers-reduced-motion: reduce) {
+            .a3d { animation-duration: 80s; }
+        }
 
-        /* Pause on touch/hover */
-        .scene:hover .carousel {
-            animation-play-state: paused;
+        .message {
+            text-align: center;
+            color: #e11d48;
+            font-weight: bold;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            z-index: 10;
         }
     </style>
 </head>
 <body>
 
-    <div class="text-center z-10 mb-12">
-        <h1 class="text-4xl font-bold text-red-600 drop-shadow-sm">Yay! See you on the 14th! 🥰</h1>
-    </div>
+    <div class="container">
+        <h1 class="message">Yay! See you on the 14th! 🥰</h1>
 
-    <div class="scene">
-        <div class="carousel">
-            <img class="card" src="your-photo-1.jpg" alt="Us 1">
-            <img class="card" src="your-photo-2.jpg" alt="Us 2">
-            <img class="card" src="your-photo-3.jpg" alt="Us 3">
-            <img class="card" src="your-photo-4.jpg" alt="Us 4">
-            <img class="card" src="your-photo-5.jpg" alt="Us 5">
+        <div class="scene">
+            <div class="a3d" style="--n: 5">
+                <img class="card" style="--i: 0" src="your-photo-1.jpg" alt="Us 1">
+                <img class="card" style="--i: 1" src="your-photo-2.jpg" alt="Us 2">
+                <img class="card" style="--i: 2" src="your-photo-3.jpg" alt="Us 3">
+                <img class="card" style="--i: 3" src="your-photo-4.jpg" alt="Us 4">
+                <img class="card" style="--i: 4" src="your-photo-5.jpg" alt="Us 5">
+            </div>
         </div>
+
+        <audio autoplay loop>
+            <source src="Music.mp3" type="audio/mpeg">
+        </audio>
     </div>
-
-    <audio autoplay loop>
-        <source src="Music.mp3" type="audio/mpeg">
-    </audio>
-
-    <div class="mt-12 text-red-400 animate-bounce text-3xl">❤️❤️❤️</div>
 
 </body>
 </html>
