@@ -7,204 +7,129 @@
     <title>Yay! 🥰</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Based on your reference snippet */
-        html,
-        body {
+        /* Global Reset */
+        html, body {
             display: grid;
             height: 100%;
             margin: 0;
+            padding: 0;
+            overflow: hidden;
         }
 
         body {
             background: #fff3ed;
-            overflow: hidden;
         }
 
-        .scene,
-        .a3d {
-            display: grid;
-        }
-
+        /* 3D Scene */
         .scene {
+            display: grid;
+            place-items: center;
             overflow: hidden;
-            perspective: 35em;
-            margin-top: auto;
-            mask: linear-gradient(90deg, #0000, red 20% 80%, #0000);
+            perspective: 60em; /* Deep perspective for the large ring */
+            mask: linear-gradient(90deg, #0000, red 10% 90%, #0000); /* Fade edges */
             height: 100vh;
             width: 100vw;
         }
 
+        /* The Spinner */
         .a3d {
+            display: grid;
             place-self: center;
             transform-style: preserve-3d;
-            animation: ry 30s linear infinite;
-            /* Slow, continuous rotation */
+            animation: ry 60s linear infinite; /* Slower rotation for 104 images */
         }
 
         @keyframes ry {
-            to {
-                transform: rotateY(1turn);
-            }
+            to { transform: rotateY(1turn); }
         }
 
+        /* The Card */
         .card {
-            --w: 18em;
-            /* Card width */
+            /* We make the cards smaller (10em) so the ring doesn't get 
+               too massive (miles wide) with 104 items */
+            --w: 10em; 
+            
             --ba: calc(1turn / var(--n));
-            /* Angle per card */
-            grid-area: 1/ 1;
-            /* VERY IMPORTANT: Stacks them in one spot first */
+            grid-area: 1 / 1;
             width: var(--w);
             aspect-ratio: 7 / 10;
             object-fit: cover;
-            border-radius: 1.5em;
+            border-radius: 1em;
+            
+            border: 3px solid white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
             backface-visibility: hidden;
 
-            /* The specific transform chain from your jellyfish snippet */
+            /* The Math */
             transform:
                 rotateY(calc(var(--i) * var(--ba)))
-                /* Negative translateZ pushes them away into a wider ring */
                 translateZ(calc(-1 * (0.5 * var(--w) + 0.5em) / tan(0.5 * var(--ba))));
         }
 
         .message {
             position: absolute;
-            top: 15%;
+            top: 10%;
             width: 100%;
             text-align: center;
-            color: pink;
+            color: #e11d48;
+            font-family: sans-serif;
             font-weight: bold;
             font-size: 2.5rem;
             z-index: 100;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            letter-spacing: 0.05em;
-            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            margin-bottom: 10px;
-            padding: 0 2rem;
-            line-height: 1.2;
+            text-shadow: 0 2px 4px rgba(255,255,255,0.8);
         }
     </style>
 </head>
 
 <body>
-    <audio autoplay loop>
-        <source src="Music.mp3" type="audio/mpeg">
-    </audio>
 
     <h1 class="message font-sans">Yeey! Lovee youu!</h1>
 
     <div class="scene">
-        <div class="a3d" style="--n: 13">
-            <div class="scene">
-                <div class="a3d" style="--n: 104">
-                    <img class="card" style="--i: 0" src="Valentines/1.jpg" alt="Us 1">
-                    <img class="card" style="--i: 1" src="Valentines/2.JPG" alt="Us 2">
-                    <img class="card" style="--i: 2" src="Valentines/3.JPG" alt="Us 3">
-                    <img class="card" style="--i: 3" src="Valentines/4.JPG" alt="Us 4">
-                    <img class="card" style="--i: 4" src="Valentines/5.JPG" alt="Us 5">
-                    <img class="card" style="--i: 5" src="Valentines/6.JPG" alt="Us 6">
-                    <img class="card" style="--i: 6" src="Valentines/7.PNG" alt="Us 7">
-                    <img class="card" style="--i: 7" src="Valentines/8.JPEG" alt="Us 8">
-                    <img class="card" style="--i: 8" src="Valentines/9.JPG" alt="Us 9">
-                    <img class="card" style="--i: 9" src="Valentines/10.JPG" alt="Us 10">
-                    <img class="card" style="--i: 10" src="Valentines/11.JPEG" alt="Us 11">
-                    <img class="card" style="--i: 11" src="Valentines/12.JPEG" alt="Us 12">
-                    <img class="card" style="--i: 12" src="Valentines/13.JPG" alt="Us 13">
-                    <img class="card" style="--i: 13" src="Valentines/14.jpg" alt="Us 14">
-                    <img class="card" style="--i: 14" src="Valentines/15.jpg" alt="Us 15">
-                    <img class="card" style="--i: 15" src="Valentines/16.jpg" alt="Us 16">
-                    <img class="card" style="--i: 16" src="Valentines/17.jpg" alt="Us 17">
-                    <img class="card" style="--i: 17" src="Valentines/18.jpg" alt="Us 18">
-                    <img class="card" style="--i: 18" src="Valentines/19.jpg" alt="Us 19">
-                    <img class="card" style="--i: 19" src="Valentines/20.jpg" alt="Us 20">
-                    <img class="card" style="--i: 20" src="Valentines/21.jpg" alt="Us 21">
-                    <img class="card" style="--i: 21" src="Valentines/22.jpg" alt="Us 22">
-                    <img class="card" style="--i: 22" src="Valentines/23.jpg" alt="Us 23">
-                    <img class="card" style="--i: 23" src="Valentines/24.jpg" alt="Us 24">
-                    <img class="card" style="--i: 24" src="Valentines/25.jpg" alt="Us 25">
-                    <img class="card" style="--i: 25" src="Valentines/26.jpg" alt="Us 26">
-                    <img class="card" style="--i: 26" src="Valentines/27.jpg" alt="Us 27">
-                    <img class="card" style="--i: 27" src="Valentines/28.jpg" alt="Us 28">
-                    <img class="card" style="--i: 28" src="Valentines/29.jpg" alt="Us 29">
-                    <img class="card" style="--i: 29" src="Valentines/30.jpg" alt="Us 30">
-                    <img class="card" style="--i: 30" src="Valentines/31.jpg" alt="Us 31">
-                    <img class="card" style="--i: 31" src="Valentines/32.jpg" alt="Us 32">
-                    <img class="card" style="--i: 32" src="Valentines/33.jpg" alt="Us 33">
-                    <img class="card" style="--i: 33" src="Valentines/34.jpg" alt="Us 34">
-                    <img class="card" style="--i: 34" src="Valentines/35.jpg" alt="Us 35">
-                    <img class="card" style="--i: 35" src="Valentines/36.jpg" alt="Us 36">
-                    <img class="card" style="--i: 36" src="Valentines/37.jpg" alt="Us 37">
-                    <img class="card" style="--i: 37" src="Valentines/38.jpg" alt="Us 38">
-                    <img class="card" style="--i: 38" src="Valentines/39.jpg" alt="Us 39">
-                    <img class="card" style="--i: 39" src="Valentines/40.jpg" alt="Us 40">
-                    <img class="card" style="--i: 40" src="Valentines/41.jpg" alt="Us 41">
-                    <img class="card" style="--i: 41" src="Valentines/42.jpg" alt="Us 42">
-                    <img class="card" style="--i: 42" src="Valentines/43.jpg" alt="Us 43">
-                    <img class="card" style="--i: 43" src="Valentines/44.jpg" alt="Us 44">
-                    <img class="card" style="--i: 44" src="Valentines/45.jpg" alt="Us 45">
-                    <img class="card" style="--i: 45" src="Valentines/46.jpg" alt="Us 46">
-                    <img class="card" style="--i: 46" src="Valentines/47.jpg" alt="Us 47">
-                    <img class="card" style="--i: 47" src="Valentines/48.jpg" alt="Us 48">
-                    <img class="card" style="--i: 48" src="Valentines/49.jpg" alt="Us 49">
-                    <img class="card" style="--i: 49" src="Valentines/50.jpg" alt="Us 50">
-                    <img class="card" style="--i: 50" src="Valentines/51.jpg" alt="Us 51">
-                    <img class="card" style="--i: 51" src="Valentines/52.jpg" alt="Us 52">
-                    <img class="card" style="--i: 52" src="Valentines/53.jpg" alt="Us 53">
-                    <img class="card" style="--i: 53" src="Valentines/54.jpg" alt="Us 54">
-                    <img class="card" style="--i: 54" src="Valentines/55.jpg" alt="Us 55">
-                    <img class="card" style="--i: 55" src="Valentines/56.jpg" alt="Us 56">
-                    <img class="card" style="--i: 56" src="Valentines/57.jpg" alt="Us 57">
-                    <img class="card" style="--i: 57" src="Valentines/58.jpg" alt="Us 58">
-                    <img class="card" style="--i: 58" src="Valentines/59.jpg" alt="Us 59">
-                    <img class="card" style="--i: 59" src="Valentines/60.jpg" alt="Us 60">
-                    <img class="card" style="--i: 60" src="Valentines/61.jpg" alt="Us 61">
-                    <img class="card" style="--i: 61" src="Valentines/62.jpg" alt="Us 62">
-                    <img class="card" style="--i: 62" src="Valentines/63.jpg" alt="Us 63">
-                    <img class="card" style="--i: 63" src="Valentines/64.jpg" alt="Us 64">
-                    <img class="card" style="--i: 64" src="Valentines/65.jpg" alt="Us 65">
-                    <img class="card" style="--i: 65" src="Valentines/66.jpg" alt="Us 66">
-                    <img class="card" style="--i: 66" src="Valentines/67.jpg" alt="Us 67">
-                    <img class="card" style="--i: 67" src="Valentines/68.jpg" alt="Us 68">
-                    <img class="card" style="--i: 68" src="Valentines/69.jpg" alt="Us 69">
-                    <img class="card" style="--i: 69" src="Valentines/70.jpg" alt="Us 70">
-                    <img class="card" style="--i: 70" src="Valentines/71.jpg" alt="Us 71">
-                    <img class="card" style="--i: 71" src="Valentines/72.jpg" alt="Us 72">
-                    <img class="card" style="--i: 72" src="Valentines/73.jpg" alt="Us 73">
-                    <img class="card" style="--i: 73" src="Valentines/74.jpg" alt="Us 74">
-                    <img class="card" style="--i: 74" src="Valentines/75.jpg" alt="Us 75">
-                    <img class="card" style="--i: 75" src="Valentines/76.jpg" alt="Us 76">
-                    <img class="card" style="--i: 76" src="Valentines/77.jpg" alt="Us 77">
-                    <img class="card" style="--i: 77" src="Valentines/78.jpg" alt="Us 78">
-                    <img class="card" style="--i: 78" src="Valentines/79.jpg" alt="Us 79">
-                    <img class="card" style="--i: 79" src="Valentines/80.jpg" alt="Us 80">
-                    <img class="card" style="--i: 80" src="Valentines/81.jpg" alt="Us 81">
-                    <img class="card" style="--i: 81" src="Valentines/82.jpg" alt="Us 82">
-                    <img class="card" style="--i: 82" src="Valentines/83.jpg" alt="Us 83">
-                    <img class="card" style="--i: 83" src="Valentines/84.jpg" alt="Us 84">
-                    <img class="card" style="--i: 84" src="Valentines/85.jpg" alt="Us 85">
-                    <img class="card" style="--i: 85" src="Valentines/86.jpg" alt="Us 86">
-                    <img class="card" style="--i: 86" src="Valentines/87.jpg" alt="Us 87">
-                    <img class="card" style="--i: 87" src="Valentines/88.jpg" alt="Us 88">
-                    <img class="card" style="--i: 88" src="Valentines/89.jpg" alt="Us 89">
-                    <img class="card" style="--i: 89" src="Valentines/90.jpg" alt="Us 90">
-                    <img class="card" style="--i: 90" src="Valentines/91.jpg" alt="Us 91">
-                    <img class="card" style="--i: 91" src="Valentines/92.jpg" alt="Us 92">
-                    <img class="card" style="--i: 92" src="Valentines/93.jpg" alt="Us 93">
-                    <img class="card" style="--i: 93" src="Valentines/94.jpg" alt="Us 94">
-                    <img class="card" style="--i: 94" src="Valentines/95.jpg" alt="Us 95">
-                    <img class="card" style="--i: 95" src="Valentines/96.jpg" alt="Us 96">
-                    <img class="card" style="--i: 96" src="Valentines/97.jpg" alt="Us 97">
-                    <img class="card" style="--i: 97" src="Valentines/98.jpg" alt="Us 98">
-                    <img class="card" style="--i: 98" src="Valentines/99.jpg" alt="Us 99">
-                    <img class="card" style="--i: 99" src="Valentines/100.jpg" alt="Us 100">
-                    <img class="card" style="--i: 100" src="Valentines/101.jpg" alt="Us 101">
-                    <img class="card" style="--i: 101" src="Valentines/102.jpg" alt="Us 102">
-                    <img class="card" style="--i: 102" src="Valentines/103.jpg" alt="Us 103">
-                    <img class="card" style="--i: 103" src="Valentines/104.jpg" alt="Us 104">
-                </div>
-            </div>
+        <div class="a3d" id="carousel"></div>
+    </div>
 
-        </div>
+    <audio id="bg-music" loop>
+        <source src="Music.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        // --- CONFIGURATION ---
+        const TOTAL_IMAGES = 104; 
+        const FOLDER_NAME = 'Valentines'; 
+        const CAROUSEL = document.getElementById('carousel');
+
+        // 1. Tell CSS how many images there are
+        CAROUSEL.style.setProperty('--n', TOTAL_IMAGES);
+
+        // 2. Generate the <img> tags
+        for (let i = 1; i <= TOTAL_IMAGES; i++) {
+            const img = document.createElement('img');
+            img.className = 'card';
+            
+            // CSS Index (starts at 0)
+            img.style.setProperty('--i', i - 1);
+            
+            // Filename: Valentines/1.jpg, Valentines/2.jpg ...
+            // IMPORTANT: This assumes you ran the Python script and all files are now .jpg
+            img.src = `${FOLDER_NAME}/${i}.jpg`;
+            
+            // Fail-safe: If .jpg doesn't exist, try .JPG (just in case)
+            img.onerror = function() {
+                this.src = `${FOLDER_NAME}/${i}.JPG`;
+            };
+
+            img.alt = `Memory ${i}`;
+            CAROUSEL.appendChild(img);
+        }
+
+        // 3. Audio Fail-Safe
+        const audio = document.getElementById('bg-music');
+        document.body.addEventListener('click', () => {
+            audio.play().catch(e => console.log("Audio waiting for interaction"));
+        }, { once: true });
+    </script>
+
 </body>
 
 </html>
