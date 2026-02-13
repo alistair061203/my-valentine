@@ -1,43 +1,140 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Be My Valentine? ❤️</title>
+    <title>Yay! 🥰</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        .floating { animation: float 3s ease-in-out infinite; }
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
+        /* Global Reset */
+        html, body {
+            display: grid;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        body {
+            background: #fff3ed;
+        }
+
+        /* 3D Scene */
+        .scene {
+            display: grid;
+            place-items: center;
+            overflow: hidden;
+            perspective: 60em;
+            mask: linear-gradient(90deg, #0000, red 10% 90%, #0000);
+            height: 100vh;
+            width: 100vw;
+            
+            /* --- PERMANENT ZOOM FIX --- */
+            /* This mimics your 300% browser zoom */
+            /* We start with 2.2x zoom for PC */
+            transform: scale(2.2); 
+        }
+
+        /* The Spinner */
+        .a3d {
+            display: grid;
+            place-self: center;
+            transform-style: preserve-3d;
+            /* --- SPEED ADJUSTMENT --- */
+            /* Changed to 240s (4 minutes!) for a very slow, romantic spin */
+            animation: ry 240s linear infinite; 
+        }
+
+        @keyframes ry {
+            to { transform: rotateY(1turn); }
+        }
+
+        /* The Card */
+        .card {
+            --w: 10em; 
+            --ba: calc(1turn / var(--n));
+            grid-area: 1 / 1;
+            width: var(--w);
+            aspect-ratio: 7 / 10;
+            object-fit: cover;
+            border-radius: 1em;
+            
+            border: 3px solid white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+            backface-visibility: hidden;
+
+            transform:
+                rotateY(calc(var(--i) * var(--ba)))
+                translateZ(calc(-1 * (0.5 * var(--w) + 0.5em) / tan(0.5 * var(--ba))));
+        }
+
+        .message {
+            position: absolute;
+            top: 5%; /* Moved up slightly to make room for the zoomed ring */
+            width: 100%;
+            text-align: center;
+            color: #e11d48;
+            font-family: sans-serif;
+            font-weight: bold;
+            font-size: 2.5rem;
+            z-index: 100;
+            text-shadow: 0 2px 4px rgba(255,255,255,0.8);
+            pointer-events: none; /* Lets you click through text to the photos */
+        }
+
+        /* --- MOBILE TWEAKS --- */
+        @media (max-width: 768px) {
+            .scene {
+                /* Even bigger zoom for phones so it fills the screen */
+                transform: scale(2.8); 
+            }
+            .card {
+                /* Slightly smaller base card so 104 fits better */
+                --w: 5em; 
+            }
+            .message {
+                font-size: 1.5rem;
+                top: 8%;
+            }
         }
     </style>
 </head>
-<body class="bg-pink-100 h-screen flex flex-col items-center justify-center overflow-hidden font-sans">
 
-    <div id="question-section" class="text-center p-6">
-        <h1 class="text-4xl md:text-6xl font-bold text-red-600 mb-8 floating">Will you be my Valentine Date Pangga?</h1>
-        <div class="flex gap-4 justify-center">
-            <a href="success.html" class="bg-red-500 hover:bg-red-600 text-white px-8 py-3 rounded-full text-xl font-semibold transition-all transform hover:scale-110 shadow-lg flex items-center justify-center no-underline">
-                Yes!
-            </a>
-            <button id="noBtn" class="bg-gray-400 text-white px-8 py-3 rounded-full text-xl font-semibold shadow-md">
-                No
-            </button>
-        </div>
+<body onclick="document.getElementById('bg-music').play()">
+
+    <h1 class="message font-sans">Yeey! Lovee youu!</h1>
+
+    <div class="scene">
+        <div class="a3d" id="carousel"></div>
     </div>
 
-    <script>
-        const noBtn = document.getElementById('noBtn');
+    <audio id="bg-music" autoplay loop>
+        <source src="Music.mp3" type="audio/mpeg">
+    </audio>
 
-        // Logic for the "No" button to run away
-        noBtn.addEventListener('mouseover', () => {
-            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
-            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
-            noBtn.style.position = 'fixed';
-            noBtn.style.left = `${x}px`;
-            noBtn.style.top = `${y}px`;
-        });
+    <script>
+        const TOTAL_IMAGES = 104; 
+        const FOLDER_NAME = 'Valentines'; 
+        const CAROUSEL = document.getElementById('carousel');
+
+        CAROUSEL.style.setProperty('--n', TOTAL_IMAGES);
+
+        for (let i = 1; i <= TOTAL_IMAGES; i++) {
+            const img = document.createElement('img');
+            img.className = 'card';
+            img.style.setProperty('--i', i - 1);
+            img.src = `${FOLDER_NAME}/${i}.jpg`;
+            
+            img.onerror = function() {
+                this.src = `${FOLDER_NAME}/${i}.JPG`; 
+            };
+
+            img.alt = `Memory ${i}`;
+            CAROUSEL.appendChild(img);
+        }
     </script>
+
 </body>
+
 </html>
