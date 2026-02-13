@@ -1,148 +1,87 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Yay! 🥰</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
+        /* This ensures the entire page is a flex container that centers its children */
         body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             background: #fff3ed;
-            height: 100vh;
-            display: grid;
-            place-items: center;
             overflow: hidden;
+            font-family: sans-serif;
         }
 
         .gallery {
-            --d: 10s;
-            /* total duration */
-            --n: 6;
-            /* number of images */
+            --d: 10s; /* total duration */
+            --n: 6;    /* number of images */
             display: grid;
-            width: 280px;
+            width: 250px;
+            /* Added relative and margin auto for extra centering safety */
             position: relative;
+            margin: 0 auto;
         }
 
-        .gallery>img {
+        .gallery > img {
             grid-area: 1/1;
             width: 100%;
             aspect-ratio: 1;
             object-fit: cover;
             border: 10px solid #f2f2f2;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
             border-radius: 15px;
             animation: slide var(--d) infinite;
         }
 
-        /* The last card slides to the right instead of the left */
         .gallery img:last-child {
             animation-name: slide-last;
         }
 
-        /* CSS variables for rotation and timing (for 6 images) */
-        .gallery>img:nth-child(1) {
-            animation-delay: calc(0/var(--n) * var(--d));
-            --r: -10deg;
-        }
-
-        .gallery>img:nth-child(2) {
-            animation-delay: calc(-1/var(--n) * var(--d));
-            --r: 15deg;
-        }
-
-        .gallery>img:nth-child(3) {
-            animation-delay: calc(-2/var(--n) * var(--d));
-            --r: -12deg;
-        }
-
-        .gallery>img:nth-child(4) {
-            animation-delay: calc(-3/var(--n) * var(--d));
-            --r: 8deg;
-        }
-
-        .gallery>img:nth-child(5) {
-            animation-delay: calc(-4/var(--n) * var(--d));
-            --r: -5deg;
-        }
-
-        .gallery>img:nth-child(6) {
-            animation-delay: calc(-5/var(--n) * var(--d));
-            --r: 12deg;
-        }
+        /* Unique delays and rotations for your 6 photos */
+        .gallery > img:nth-child(1) { animation-delay: calc(0/var(--n) * var(--d)); --r: -12deg; }
+        .gallery > img:nth-child(2) { animation-delay: calc(-1/var(--n) * var(--d)); --r: 8deg; }
+        .gallery > img:nth-child(3) { animation-delay: calc(-2/var(--n) * var(--d)); --r: -15deg; }
+        .gallery > img:nth-child(4) { animation-delay: calc(-3/var(--n) * var(--d)); --r: 12deg; }
+        .gallery > img:nth-child(5) { animation-delay: calc(-4/var(--n) * var(--d)); --r: -5deg; }
+        .gallery > img:nth-child(6) { animation-delay: calc(-5/var(--n) * var(--d)); --r: 10deg; }
 
         @keyframes slide {
-
-            0%,
-            100%,
-            83.33% {
-                transform: translateX(0%) rotate(var(--r));
-                z-index: 3;
-            }
-
-            8.33% {
-                transform: translateX(-120%) rotate(var(--r));
-                z-index: 3;
-            }
-
-            8.34% {
-                transform: translateX(-120%) rotate(var(--r));
-                z-index: -3;
-            }
-
-            16.66%,
-            83.33% {
-                transform: translateX(0%) rotate(var(--r));
-                z-index: -3;
-            }
+            0%, 100%, 83.33% { transform: translateX(0%) rotate(var(--r)); z-index: 3; }
+            8.33% { transform: translateX(-120%) rotate(var(--r)); z-index: 3; }
+            8.34% { transform: translateX(-120%) rotate(var(--r)); z-index: -3; }
+            16.66%, 83.33% { transform: translateX(0%) rotate(var(--r)); z-index: -3; }
         }
 
         @keyframes slide-last {
-
-            0%,
-            100%,
-            91.66% {
-                transform: translateX(0%) rotate(var(--r));
-                z-index: 3;
-            }
-
-            8.33% {
-                transform: translateX(120%) rotate(var(--r));
-                z-index: 3;
-            }
-
-            8.34% {
-                transform: translateX(120%) rotate(var(--r));
-                z-index: -3;
-            }
-
-            16.66%,
-            91.66% {
-                transform: translateX(0%) rotate(var(--r));
-                z-index: -3;
-            }
+            0%, 100%, 91.66% { transform: translateX(0%) rotate(var(--r)); z-index: 3; }
+            8.33% { transform: translateX(120%) rotate(var(--r)); z-index: 3; }
+            8.34% { transform: translateX(120%) rotate(var(--r)); z-index: -3; }
+            16.66%, 91.66% { transform: translateX(0%) rotate(var(--r)); z-index: -3; }
         }
     </style>
 </head>
-
 <body>
 
-    <div class="text-center">
+    <div class="flex flex-col items-center justify-center text-center">
         <h1 class="text-4xl font-bold text-red-600 mb-12">Yay! See you on the 14th! 🥰</h1>
-
+        
         <div class="gallery">
             <img src="your-photo-1.jpg" alt="Us 1">
-            <img src="your-photo-2 copy 2.jpg" alt="Us 2">
-            <img src="your-photo-2 copy 3.jpg" alt="Us 3">
-            <img src="your-photo-2 copy 4.jpg" alt="Us 4">
-            <img src="your-photo-2 copy 5.jpg" alt="Us 5">
-            <img src="your-photo-2.jpg" alt="Us 6">
+            <img src="your-photo-2.jpg" alt="Us 2">
+            <img src="your-photo-3.jpg" alt="Us 3">
+            <img src="your-photo-4.jpg" alt="Us 4">
+            <img src="your-photo-5.jpg" alt="Us 5">
         </div>
-
+        
         <div class="mt-12 text-red-400 animate-bounce text-3xl">❤️❤️❤️</div>
     </div>
 
 </body>
-
 </html>
