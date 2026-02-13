@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,90 +15,85 @@
             justify-content: center;
             background: #fff3ed;
             overflow: hidden;
-            font-family: sans-serif;
         }
 
-        /* 3D Scene Setup */
+        /* 1. The Container */
         .scene {
-            display: grid;
-            perspective: 60em;
-            /* Depth of the 3D effect */
+            position: relative;
             width: 100%;
             height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            /* This gives the 3D depth */
+            perspective: 1200px; 
         }
 
-        .a3d {
-            place-self: center;
+        /* 2. The Rotating Ring */
+        .carousel {
+            position: relative;
+            width: 200px;
+            height: 280px;
             transform-style: preserve-3d;
-            animation: rotate-carousel 20s linear infinite;
+            animation: rotate 20s linear infinite;
         }
 
-        @keyframes rotate-carousel {
-            from {
-                transform: rotateY(0turn);
-            }
-
-            to {
-                transform: rotateY(1turn);
-            }
+        @keyframes rotate {
+            from { transform: rotateY(0deg); }
+            to { transform: rotateY(360deg); }
         }
 
+        /* 3. The Individual Cards */
         .card {
-            /* Radius Calculation for 5 images */
-            --w: 12em;
-            --n: 5;
-            --ba: 1turn / var(--n);
-            grid-area: 1 / 1;
-            width: var(--w);
-            aspect-ratio: 7 / 10;
-            object-fit: cover;
-            border-radius: 1.5em;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 15px;
             border: 5px solid white;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            backface-visibility: hidden;
-
-            /* Logic to place each card in the ring */
-            transform:
-                rotateY(calc(var(--i) * var(--ba))) translateZ(15em);
-            /* Adjust this to make the circle bigger/smaller */
+            object-fit: cover;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            /* Prevents seeing the back of the photo */
+            backface-visibility: hidden; 
+            
+            /* Logic for 5 images: 360 / 5 = 72 degrees each */
+            /* transform: rotateY(angle) translateZ(radius) */
         }
 
-        /* Hover effect to pause rotation */
-        .scene:hover .a3d {
+        .card:nth-child(1) { transform: rotateY(0deg) translateZ(250px); }
+        .card:nth-child(2) { transform: rotateY(72deg) translateZ(250px); }
+        .card:nth-child(3) { transform: rotateY(144deg) translateZ(250px); }
+        .card:nth-child(4) { transform: rotateY(216deg) translateZ(250px); }
+        .card:nth-child(5) { transform: rotateY(288deg) translateZ(250px); }
+
+        /* Pause on touch/hover */
+        .scene:hover .carousel {
             animation-play-state: paused;
         }
     </style>
 </head>
-
 <body>
 
-    <div class="flex flex-col items-center justify-center text-center w-full">
-        <h1 class="text-4xl font-bold text-red-600 mb-16 z-10">Yay! See you on the 14th! 🥰</h1>
-
-        <div class="scene">
-            <div class="a3d" style="--n: 5">
-                <img class="card" style="--i: 0" src="your-photo-1.jpg" alt="Photo 1">
-                <img class="card" style="--i: 1" src="your-photo-2.jpg" alt="Photo 2">
-                <img class="card" style="--i: 2" src="your-photo-3.jpg" alt="Photo 3">
-                <img class="card" style="--i: 3" src="your-photo-4.jpg" alt="Photo 4">
-                <img class="card" style="--i: 4" src="your-photo-5.jpg" alt="Photo 5">
-            </div>
-        </div>
-        <audio id="myAudio" loop>
-            <source src="Music.mp3" type="audio/mpeg">
-        </audio>
+    <div class="text-center z-10 mb-12">
+        <h1 class="text-4xl font-bold text-red-600 drop-shadow-sm">Yay! See you on the 14th! 🥰</h1>
     </div>
 
-    <script>
-        // Start audio on first click anywhere to bypass browser blocks
-        window.addEventListener('load', () => {
-            const audio = document.getElementById('myAudio');
-            document.body.addEventListener('click', () => {
-                audio.play();
-            }, { once: true });
-        });
-    </script>
+    <div class="scene">
+        <div class="carousel">
+            <img class="card" src="your-photo-1.jpg" alt="Us 1">
+            <img class="card" src="your-photo-2.jpg" alt="Us 2">
+            <img class="card" src="your-photo-3.jpg" alt="Us 3">
+            <img class="card" src="your-photo-4.jpg" alt="Us 4">
+            <img class="card" src="your-photo-5.jpg" alt="Us 5">
+        </div>
+    </div>
+
+    <audio autoplay loop>
+        <source src="Music.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="mt-12 text-red-400 animate-bounce text-3xl">❤️❤️❤️</div>
 
 </body>
-
 </html>
